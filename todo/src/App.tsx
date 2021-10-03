@@ -5,6 +5,8 @@ type Todo = {
     value: string;
 };
 
+
+
 export const App = () => {
   /**
    * text = ステートの値
@@ -13,6 +15,29 @@ export const App = () => {
   const [text, setText] = useState('');
   
   const [todos, setTodos] = useState<Todo[]>([]);
+
+  const handleOnSubmit = () => {
+    // 何も入力されていなかったらリターン
+    if (!text) return;
+
+    // 新しい Todo を作成
+    const newTodo: Todo = {
+      value: text,
+    };
+
+    /**
+     * スプレッド構文を用いて todos ステートのコピーへ newTodo を追加する
+     *
+     * 以下と同義
+     * const oldTodos = todos.slice();
+     * oldTodos.splice(0, 0, newTodo);
+     * setTodos(oldTodos);
+     *
+     **/
+    setTodos([newTodo, ...todos]);
+    // フォームへの入力をクリアする
+    setText('');
+  };
 
   return (
     <div>
