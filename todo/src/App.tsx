@@ -1,3 +1,4 @@
+import { GlobalStyles } from '@mui/styled-engine';
 import React, { useState } from 'react';
 import { FormDialog } from './FormDialog'
 import { TodoItem } from './TodoItems'
@@ -95,7 +96,8 @@ export const App = () => {
 
   return (
     <div>
-      <ToolBar/>
+      <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
+      <ToolBar filter={filter}/>
       <FormDialog
         text={text}
         onChange={handleOnChange}

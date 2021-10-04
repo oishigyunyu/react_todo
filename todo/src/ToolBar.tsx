@@ -6,7 +6,11 @@ import IconButton from '@mui/material/IconButton';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
-export const ToolBar = () => {
+type Props = {
+    filter: Filter;
+};
+
+export const ToolBar = (props: Props) => {
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar position="static">
@@ -20,7 +24,7 @@ export const ToolBar = () => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography>TODO</Typography>
+                    <Typography>{props.filter}</Typography>
                 </Toolbar>
             </AppBar>
         </Box>
