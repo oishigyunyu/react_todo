@@ -54,7 +54,7 @@ export const App = () => {
     });
 
     setTodos(newTodos);
-  }
+  };
 
   const handleOnRemove = (id: number, removed: boolean) => {
     const newTodos = todos.map((todo) => {
@@ -66,7 +66,7 @@ export const App = () => {
     });
 
     setTodos(newTodos);
-  }
+  };
 
   const filteredTodos = todos.filter((todo) => {
     switch(filter) {
@@ -83,6 +83,11 @@ export const App = () => {
     }
   });
 
+  const handleOnEnpty = () => {
+    const newTodos = todos.filter((todo) => !todo.removed);
+    setTodos(newTodos);
+  };
+
   return (
     <div>
       <select defaultValue="all" 
@@ -93,23 +98,30 @@ export const App = () => {
         <option value="unchecked">現在のタスク</option>
         <option value="removed">削除済みのタスク</option>
       </select>
-      <form 
+      {filter === 'removed' ? (
+        <button onClick={() => console.log('remove all')}>
+          ゴミ箱を殻にする
+        </button>
+      ) : (
+        <form 
           onSubmit={(e) => {
             e.preventDefault();
             handleOnSubmit();
-      }}
-      >
+          }}
+        >
         <input type="text" 
                value={text} 
-               disabled={filter === 'checked' || filter === 'removed'}
+               disabled={filter === 'checked' }
                onChange={(e) => handleOnChange(e)} 
         />
         <input type="submit" 
                value="追加" 
-               disabled={filter === 'checked' || filter === 'removed'}
+               disabled={filter === 'checked' }
                onSubmit={handleOnSubmit} 
         />
       </form>
+      )}
+      
       <ul>
         {filteredTodos.map((todo) => {
           return (
