@@ -11,6 +11,21 @@ type Props = {
 };
 
 export const ToolBar = (props: Props) => {
+    const translator = (arg: Filter) => {
+        switch (arg) {
+            case 'all':
+                return 'すべてのタスク'
+            case 'unchecked':
+                return '現在のタスク'
+            case 'checked':
+                return '完了したタスク'
+            case 'removed':
+                return 'ゴミ箱'
+            default:
+                return 'TODO';
+        }
+    }
+
     return (
         <Box sx={{ flexGrow: 1}}>
             <AppBar position="static">
@@ -24,7 +39,7 @@ export const ToolBar = (props: Props) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography>{props.filter}</Typography>
+                    <Typography>{translator(props.filter)}</Typography>
                 </Toolbar>
             </AppBar>
         </Box>
