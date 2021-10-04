@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { FormDialog } from './FormDialog'
 import { TodoItem } from './TodoItems'
 import { ToolBar } from './ToolBar'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { indigo, pink } from '@mui/material/colors';
 
 type Todo = {
   value: string;
@@ -13,6 +15,16 @@ type Todo = {
 
 type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: indigo[500],
+    },
+    secondary: {
+      main: pink[500],
+    },
+  },
+});
 
 export const App = () => {
   const [text, setText] = useState('');
@@ -96,26 +108,28 @@ export const App = () => {
 
   return (
     <div>
-      <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
-      <ToolBar filter={filter}/>
-      <FormDialog
-        text={text}
-        onChange={handleOnChange}
-        onSubmit={handleOnSubmit}
-      />
-      <ul>
-        {filteredTodos.map((todo) => {
-          return (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onCheck={handleOnCheck}
-              onEdit={handleOnEdit}
-              onRemove={handleOnRemove}
-            />
-          )
-        })}
-      </ul>
+      <ThemeProvider theme={theme}>   
+        <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
+        <ToolBar filter={filter}/>
+        <FormDialog
+          text={text}
+          onChange={handleOnChange}
+          onSubmit={handleOnSubmit}
+        />
+        <ul>
+          {filteredTodos.map((todo) => {
+            return (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onCheck={handleOnCheck}
+                onEdit={handleOnEdit}
+                onRemove={handleOnRemove}
+              />
+            )
+          })}
+        </ul>
+      </ThemeProvider>
     </div>
   );
 };
