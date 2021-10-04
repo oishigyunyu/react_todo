@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FormDialog } from './FormDialog'
 
 type Todo = {
   value: string;
@@ -82,6 +83,8 @@ export const App = () => {
     }
   });
 
+
+  // eslint-disable-next-line
   const handleOnEnpty = () => {
     const newTodos = todos.filter((todo) => !todo.removed);
     setTodos(newTodos);
@@ -97,31 +100,11 @@ export const App = () => {
         <option value="unchecked">現在のタスク</option>
         <option value="removed">削除済みのタスク</option>
       </select>
-      {filter === 'removed' ? (
-        <button onClick={() => handleOnEnpty()}
-                disabled={todos.filter((todo) => todo.removed).length === 0}
-        >
-          ゴミ箱を殻にする
-        </button>
-      ) : (
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleOnSubmit();
-          }}
-        >
-        <input type="text" 
-               value={text} 
-               disabled={filter === 'checked' }
-               onChange={(e) => handleOnChange(e)} 
-        />
-        <input type="submit" 
-               value="追加" 
-               disabled={filter === 'checked' }
-               onSubmit={handleOnSubmit} 
-        />
-      </form>
-      )}
+      <FormDialog
+        text={text}
+        onChange={handleOnChange}
+        onSubmit={handleOnSubmit}
+      />
       
       <ul>
         {filteredTodos.map((todo) => {

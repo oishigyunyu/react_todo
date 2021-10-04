@@ -3,5 +3,6 @@ declare type Todo = {
     id: number;
     checked: boolean;
     removed: boolean;
-  };
-  declare type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
+};
+
+declare type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
