@@ -1,8 +1,8 @@
 // React から useState フックをインポート
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 type Todo = {
-    value: string;
+  value: string;
 };
 
 
@@ -13,7 +13,7 @@ export const App = () => {
    * setText = ステートの値を更新するメソッド
    */
   const [text, setText] = useState('');
-  
+
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const handleOnSubmit = () => {
@@ -39,9 +39,18 @@ export const App = () => {
     setText('');
   };
 
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
   return (
     <div>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form 
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleOnSubmit();
+      }}
+      >
         {/*
           入力中テキストの値を text ステートが
           持っているのでそれを value として表示
@@ -52,12 +61,10 @@ export const App = () => {
         <input
           type="text"
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => handleOnChange(e)}
         />
         <input
-          type="submit"
-          value="追加"
-          onSubmit={(e) => e.preventDefault()}
+          type="submit" value="追加" onSubmit={handleOnSubmit}
         />
       </form>
     </div>
