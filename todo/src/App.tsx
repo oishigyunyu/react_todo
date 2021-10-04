@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FormDialog } from './FormDialog'
+import { TodoItem } from './TodoItems'
 
 type Todo = {
   value: string;
@@ -109,23 +110,14 @@ export const App = () => {
       <ul>
         {filteredTodos.map((todo) => {
           return (
-            <li key={todo.id}>
-              <input
-                type="checkbox"
-                checked={todo.checked}
-                disabled={todo.removed}
-                onChange={(e) => handleOnCheck(todo.id, todo.checked)} 
-              />
-              <input type="text"
-                disabled={todo.checked || todo.removed}
-                value={todo.value}
-                onChange={(e) => handleOnEdit(todo.id, e.target.value)}
-              />
-              <button onClick={() => handleOnRemove(todo.id, todo.removed)}>
-                {todo.removed ? '復元' : '削除'}
-              </button>
-            </li>
-          );
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onCheck={handleOnCheck}
+              onEdit={handleOnEdit}
+              onRemove={handleOnRemove}
+            />
+          )
         })}
       </ul>
     </div>
