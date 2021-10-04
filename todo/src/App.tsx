@@ -99,7 +99,9 @@ export const App = () => {
         <option value="removed">削除済みのタスク</option>
       </select>
       {filter === 'removed' ? (
-        <button onClick={() => console.log('remove all')}>
+        <button onClick={() => handleOnEnpty()}
+                disabled={todos.filter((todo) => todo.removed).length === 0}
+        >
           ゴミ箱を殻にする
         </button>
       ) : (
