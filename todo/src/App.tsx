@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FormDialog } from './FormDialog'
 import { TodoItem } from './TodoItems'
+import { ToolBar } from './ToolBar'
 
 type Todo = {
   value: string;
@@ -15,6 +16,7 @@ type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
 export const App = () => {
   const [text, setText] = useState('');
   const [todos, setTodos] = useState<Todo[]>([]);
+  // eslint-disable-next-line
   const [filter, setFilter] = useState<Filter>('all');
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,20 +95,12 @@ export const App = () => {
 
   return (
     <div>
-      <select defaultValue="all" 
-              onChange={(e) => setFilter(e.target.value as Filter)}
-      >
-        <option value="all">すべてのタスク</option>
-        <option value="checked">完了したタスク</option>
-        <option value="unchecked">現在のタスク</option>
-        <option value="removed">削除済みのタスク</option>
-      </select>
+      <ToolBar/>
       <FormDialog
         text={text}
         onChange={handleOnChange}
         onSubmit={handleOnSubmit}
       />
-      
       <ul>
         {filteredTodos.map((todo) => {
           return (
