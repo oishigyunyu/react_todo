@@ -1,4 +1,3 @@
-import { toUnicode } from 'punycode';
 import React, { useState } from 'react';
 
 type Todo = {
