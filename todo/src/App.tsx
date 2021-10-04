@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { checkServerIdentity } from 'tls';
 
 type Todo = {
   value: string;
   id: number;
+  checked: boolean;
 };
 
 
@@ -21,6 +23,7 @@ export const App = () => {
     const newTodo: Todo = {
       value: text,
       id: new Date().getTime(),
+      checked: false,
     };
 
     setTodos([newTodo, ...todos]);
@@ -38,6 +41,17 @@ export const App = () => {
     setTodos(newTodos);
   };
 
+  const handleOnCheck = (id: number, checked: boolean) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.checked = !checked;
+      }
+      return todo;
+    });
+
+    setTodos(newTodos);
+  }
+
   return (
     <div>
       <form 
@@ -53,9 +67,15 @@ export const App = () => {
         {todos.map((todo) => {
           return (
             <li key={todo.id}>
+              <input
+                type="checkbox"
+                checked={todo.checked}
+                onChange={(e) => handleOnCheck(todo.id, todo.checked)} 
+              />
               <input type="text"
-                     value={todo.value}
-                     onChange={(e) => handleOnEdit(todo.id, e.target.value)}
+                disabled={todo.checked}
+                value={todo.value}
+                onChange={(e) => handleOnEdit(todo.id, e.target.value)}
               />
             </li>
           );
