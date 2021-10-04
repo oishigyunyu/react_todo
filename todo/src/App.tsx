@@ -5,6 +5,8 @@ import { TodoItem } from './TodoItems'
 import { ToolBar } from './ToolBar'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { indigo, pink } from '@mui/material/colors';
+import { SideBar } from './SideBar'
+import { QR } from './QR'
 
 type Todo = {
   value: string;
@@ -31,6 +33,10 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   // eslint-disable-next-line
   const [filter, setFilter] = useState<Filter>('all');
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const [qrOpen, setQrOpen] = useState(false);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -106,11 +112,27 @@ export const App = () => {
     setTodos(newTodos);
   };
 
+  const toggleDrawer = () => setDrawerOpen(!drawerOpen);
+
+  const handleOnSort = (filter: Filter) => {
+    setFilter(filter);
+  };
+
+  const onQROpen = () => setQrOpen(true);
+  const onQRClose = () => setQrOpen(false);
+
   return (
     <div>
       <ThemeProvider theme={theme}>   
         <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
-        <ToolBar filter={filter}/>
+        <ToolBar filter={filter} toggleDrawer={toggleDrawer}/>
+        <SideBar
+          drawerOpen={drawerOpen}
+          toggleDrawer={toggleDrawer}
+          onSort={handleOnSort}
+          onOpen={onQROpen}
+        />
+        <QR open={qrOpen} onClose={onQRClose}/>
         <FormDialog
           text={text}
           onChange={handleOnChange}

@@ -8,6 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 type Props = {
     filter: Filter;
+    toggleDrawer: () => void;
 };
 
 export const ToolBar = (props: Props) => {
