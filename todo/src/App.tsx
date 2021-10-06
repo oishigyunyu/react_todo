@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { indigo, pink } from '@mui/material/colors';
@@ -11,6 +11,19 @@ import { SideBar } from './SideBar';
 import { QR } from './QR';
 import { AlertDialog } from './AlertDialog';
 import { ActionButton } from './ActionButton';
+import localforage from 'localforage';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const typeguardTodo = (arg: any): arg is Todo => {
+  return (
+    arg !== null &&
+    typeof arg === 'object' &&
+    typeof arg.id === 'number' &&
+    typeof arg.value === 'string' &&
+    typeof arg.checked === 'boolean' &&
+    typeof arg.removed === 'boolean'
+  );
+};
 
 const Container = styled('div')({
   margin: '0 auto',
@@ -37,6 +50,29 @@ export const App = () => {
   const [qrOpen, setQrOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+
+  useEffect(() => {
+    localforage
+      .getItem('todo-20200101')
+      .then((values) => {
+        if (!values || !Array.isArray(values)) {
+          return;
+        } else {
+          const newTodos: Todo[] = [];
+          for (const val of values) {
+            if (typeguardTodo(val)) newTodos.push(val);
+          }
+          setTodos(newTodos);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    localforage.setItem('todo-20200101', todos).catch((err) => {
+      console.error(err);
+    });
+  }, [todos]);
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -7,5 +7,5 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
-serviceWorkerRegistration.unregister();
+serviceWorkerRegistration.register();
 
