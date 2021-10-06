@@ -2,13 +2,21 @@ import { useState } from 'react';
 
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { indigo, pink } from '@mui/material/colors';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { FormDialog } from './FormDialog';
-import { TodoItem } from './TodoItems';
+import { TodoItem } from './TodoItem';
 import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
 import { QR } from './QR';
+import { AlertDialog } from './AlertDialog';
+import { ActionButton } from './ActionButton';
+
+const Container = styled('div')({
+  margin: '0 auto',
+  maxWidth: '640px',
+  fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
+});
 
 const theme = createTheme({
   palette: {
@@ -27,8 +35,12 @@ export const App = () => {
   const [filter, setFilter] = useState<Filter>('all');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setText(e.target.value);
   };
 
@@ -44,6 +56,7 @@ export const App = () => {
 
     setTodos([newTodo, ...todos]);
     setText('');
+    setDialogOpen(false);
   };
 
   const handleOnEdit = (id: number, value: string) => {
@@ -88,10 +101,16 @@ export const App = () => {
     setFilter(filter);
   };
 
+  const toggleAlert = () => setAlertOpen(!alertOpen);
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
 
   const onQROpen = () => setQrOpen(true);
   const onQRClose = () => setQrOpen(false);
+
+  const toggleDialog = () => {
+    setDialogOpen(!dialogOpen);
+    setText('');
+  };
 
   const filteredTodos = todos.filter((todo) => {
     switch (filter) {
@@ -121,22 +140,38 @@ export const App = () => {
       <QR open={qrOpen} onClose={onQRClose} />
       <FormDialog
         text={text}
+        dialogOpen={dialogOpen}
         onChange={handleOnChange}
         onSubmit={handleOnSubmit}
+        toggleDialog={toggleDialog}
       />
-      <ul>
+      <AlertDialog
+        alertOpen={alertOpen}
+        onEmpty={handleOnEmpty}
+        toggleAlert={toggleAlert}
+      />
+      <Container>
         {filteredTodos.map((todo) => {
           return (
             <TodoItem
               key={todo.id}
               todo={todo}
+              filter={filter}
               onCheck={handleOnCheck}
               onEdit={handleOnEdit}
               onRemove={handleOnRemove}
             />
           );
         })}
-      </ul>
+        <ActionButton
+          todos={todos}
+          filter={filter}
+          alertOpen={alertOpen}
+          dialogOpen={dialogOpen}
+          toggleAlert={toggleAlert}
+          toggleDialog={toggleDialog}
+        />
+      </Container>
     </ThemeProvider>
   );
 };

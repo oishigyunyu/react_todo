@@ -1,19 +1,53 @@
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+
 type Props = {
-    text: string;
-    onSubmit: () => void;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};  
+  text: string;
+  dialogOpen: boolean;
+  toggleDialog: () => void;
+  onSubmit: () => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+};
 
 export const FormDialog = (props: Props) => {
-    return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                props.onSubmit();
+  return (
+    <Dialog fullWidth open={props.dialogOpen} onClose={props.toggleDialog}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          props.onSubmit();
+        }}
+      >
+        <div style={{ margin: '1em' }}>
+          <TextField
+            variant="standard"
+            style={{
+              width: '100%',
+              fontSize: '16px',
+              fontFamily:
+                '-apple-system, BlinkMacSystemFont, Roboto, sans-serif',
             }}
-        >
-            <input type="text" value={props.text} onChange={props.onChange} />
-            <input type="submit" value="追加" onSubmit={props.onSubmit} />
-        </form>
-    );
+            label="タスクを入力..."
+            onChange={(e) => props.onChange(e)}
+            value={props.text}
+            autoFocus
+          />
+          <DialogActions>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={props.onSubmit}
+              aria-label="add"
+            >
+              追加
+            </Button>
+          </DialogActions>
+        </div>
+      </form>
+    </Dialog>
+  );
 };

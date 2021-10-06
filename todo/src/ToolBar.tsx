@@ -46,6 +46,7 @@ export const ToolBar = (props: Props) => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={props.toggleDrawer}
           >
             <MenuIcon />
           </IconButton>
