@@ -6,6 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
+import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SubjectIcon from '@mui/icons-material/Subject';
 import CreateIcon from '@mui/icons-material/CreateRounded';
@@ -106,6 +107,12 @@ export const SideBar = (props: Props) => {
             <ListItemText secondary="ごみ箱" />
           </ListItem>
           <Divider />
+          <ListItem button onClick={props.onOpen} aria-label="share">
+            <ListItemIcon>
+              <ShareIcon />
+            </ListItemIcon>
+            <ListItemText secondary="このアプリを共有" />
+          </ListItem>
         </List>
       </DrawerList>
     </Drawer>
