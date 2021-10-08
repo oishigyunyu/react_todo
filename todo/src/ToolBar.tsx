@@ -5,13 +5,14 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { indigo, pink } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
+import { indigo } from '@mui/material/colors';
 type Props = {
   filter: Filter;
   toggleDrawer: () => void;
 };
 
+//eslint-disable-next-line
 const theme = createTheme({
   palette: {
     primary: {
